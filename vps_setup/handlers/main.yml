@@ -3,3 +3,4 @@
 # handlers file
 
 - import_tasks: docker_handler.yml
+- import_tasks: nvim_handler.yml

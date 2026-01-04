@@ -10,3 +10,6 @@
 
 - name: Install Docker
   include_tasks: install_docker.yml
+
+- name: Install Neovim
+  include_tasks: install_nvim.yml

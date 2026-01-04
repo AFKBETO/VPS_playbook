@@ -3,3 +3,4 @@
 # vars file
 
 docker_version: 5:28.1.1-1~ubuntu.20.04~focal
+nvim_version: 0.11.5

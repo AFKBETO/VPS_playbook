@@ -1,0 +1,25 @@
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install build prerequisites for Neovim
+  ansible.builtin.apt:
+    name:
+      - ninja-build
+      - gettext
+      - cmake
+      - curl
+      - build-essential
+      - git
+    state: present
+
+- name: Clone Neovim repository
+  ansible.builtin.git:
+    repo: https://github.com/neovim/neovim
+    dest: /opt/neovim
+    version: "v{{ nvim_version }}"
+  notify: install neovim
+
+- name: Flush handlers
+  meta: flush_handlers
+

@@ -1,0 +1,13 @@
+- name: Make neovim
+  listen: install neovim
+  make:
+    chdir: /opt/neovim
+    target: install
+    params:
+      CMAKE_BUILD_TYPE: Release
+
+- name: Install Neovim
+  listen: install neovim
+  shell:
+    chdir: /opt/neovim/build
+    cmd: cpack -G DEB && sudo dpkg -i nvim-linux-x86_64.deb
