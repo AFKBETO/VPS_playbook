@@ -1,0 +1,88 @@
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Ensure dependencies are installed
+  ansible.builtin.package:
+    name:
+      - curl
+      - git
+      - ca-certificates
+      - uidmap
+    state: present
+
+- name: Create Docker GPG key directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download Docker's official GPG key
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: "0644"
+
+- name: Add Docker repository to Apt sources
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable"
+    state: present
+    filename: docker
+    update_cache: yes
+    
+
+- name: Install Docker and Docker Compose
+  ansible.builtin.package:
+    name:
+      - docker-ce={{ docker_version }}
+      - docker-ce-cli={{ docker_version }}
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+
+- name: Stop docker service if running
+  ansible.builtin.service:
+    name: docker.service
+    state: stopped
+    enabled: no
+
+- name: Stop docker socket if running
+  ansible.builtin.service:
+    name: docker.socket
+    state: stopped
+    enabled: no
+- name: Delete docker socket
+  ansible.builtin.file:
+    name: /var/run/docker.sock
+    state: absent
+
+- name: Add current user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+- name: Execute docker rootless setup script
+  become: false
+  ansible.builtin.command: "dockerd-rootless-setuptool.sh install"
+
+- name: Start docker service
+  ansible.builtin.service:
+    name: docker.service
+    state: started
+    enabled: yes
+- name: Start docker socket
+  ansible.builtin.service:
+    name: docker.socket
+    state: started
+    enabled: yes
+- name: Start containerd service
+  ansible.builtin.service:
+    name: containerd
+    state: started
+    enabled: yes
+
+
+
+

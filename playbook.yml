@@ -1,0 +1,6 @@
+- name: Setup VPS
+  hosts: vm
+  become: yes
+  roles:
+    - vps_setup
+
