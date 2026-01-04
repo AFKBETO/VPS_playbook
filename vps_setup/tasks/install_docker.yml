@@ -32,7 +32,7 @@
     
 
 - name: Install Docker and Docker Compose
-  ansible.builtin.package:
+  apt:
     name:
       - docker-ce={{ docker_version }}
       - docker-ce-cli={{ docker_version }}
@@ -40,32 +40,10 @@
       - docker-buildx-plugin
       - docker-compose-plugin
     state: present
+  notify: "setup docker rootless"
 
-- name: Stop docker service if running
-  ansible.builtin.service:
-    name: docker.service
-    state: stopped
-    enabled: no
-
-- name: Stop docker socket if running
-  ansible.builtin.service:
-    name: docker.socket
-    state: stopped
-    enabled: no
-- name: Delete docker socket
-  ansible.builtin.file:
-    name: /var/run/docker.sock
-    state: absent
-
-- name: Add current user to docker group
-  ansible.builtin.user:
-    name: "{{ ansible_user }}"
-    groups: docker
-    append: yes
-
-- name: Execute docker rootless setup script
-  become: false
-  ansible.builtin.command: "dockerd-rootless-setuptool.sh install"
+- name: Flush handlers
+  meta: flush_handlers
 
 - name: Start docker service
   ansible.builtin.service:
