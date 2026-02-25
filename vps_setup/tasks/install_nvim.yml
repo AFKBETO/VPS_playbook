@@ -18,8 +18,15 @@
     repo: https://github.com/neovim/neovim
     dest: /opt/neovim
     version: "v{{ nvim_version }}"
+    depth: 1
   notify: install neovim
 
 - name: Flush handlers
   meta: flush_handlers
 
+- name: Clone config repository
+  ansible.builtin.git:
+    repo: https://github.com/AFKBETO/neovim-config
+    dest: /home/{{ ansible_user }}/.config/nvim
+    version: "main"
+    depth: 1
