@@ -13,3 +13,6 @@
 
 - name: Install Neovim
   include_tasks: install_nvim.yml
+
+- name: Install cloudflared
+  include_tasks: install_cloudflared.yml

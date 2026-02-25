@@ -1,0 +1,30 @@
+- name: Create GPG key directory
+  ansible.builtin.file:
+    path: /usr/share/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download Cloudflare's GPG key
+  get_url:
+    url: https://pkg.cloudflare.com/cloudflare-public-v2.gpg
+    dest: /usr/share/keyrings/cloudflare-public-v2.gpg
+    mode: "0644"
+
+- name: Add Cloudflare repository to Apt sources
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/cloudflare-public-v2.gpg] https://pkg.cloudflare.com/cloudflared any main"
+    state: present
+    filename: cloudflared
+    update_cache: yes
+
+- name: Install cloudflared
+  ansible.builtin.apt:
+    name: cloudflared
+    state: present
+  notify: "install cloudflared service"
+
+- name: Flush handlers
+  meta: flush_handlers
+  when: cloudflared_token is defined
+
+

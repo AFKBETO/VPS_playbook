@@ -1,0 +1,4 @@
+- name: Start cloudflared service
+  command: cloudflared service install {{ cloudflared_token }}
+  when: cloudflared_token is defined
+  listen: "install cloudflared service"
