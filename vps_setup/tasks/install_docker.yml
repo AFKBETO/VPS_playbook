@@ -50,17 +50,9 @@
     name: docker.service
     state: started
     enabled: yes
-- name: Start docker socket
-  ansible.builtin.service:
-    name: docker.socket
-    state: started
-    enabled: yes
 - name: Start containerd service
   ansible.builtin.service:
     name: containerd
     state: started
     enabled: yes
-
-
-
 
