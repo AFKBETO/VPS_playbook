@@ -16,3 +16,6 @@
 
 - name: Install cloudflared
   include_tasks: install_cloudflared.yml
+
+- name: Install kubectl
+  include_tasks: install_kubectl.yml
