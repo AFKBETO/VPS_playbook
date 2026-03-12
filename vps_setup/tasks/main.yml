@@ -23,6 +23,9 @@
 - name: Network hardening
   include_tasks: network_hardening.yml
 
+- name: Secure shared memory
+  include_tasks: secure_shared_memory.yml
+
 - name: Install Docker
   include_tasks: install_docker.yml
 

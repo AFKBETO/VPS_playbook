@@ -1,0 +1,7 @@
+- name: Secure shared memory
+  ansible.posix.mount:
+    path: /run/shm
+    src: tmpfs
+    fstype: tmpfs
+    opts: defaults,noexec,nosuid
+    state: mounted
