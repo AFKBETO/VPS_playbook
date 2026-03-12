@@ -45,6 +45,14 @@
 - name: Flush handlers
   meta: flush_handlers
 
+- name: Pin docker to the installed version
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - docker-ce
+    - docker-ce-cli
+
 - name: Start docker service
   ansible.builtin.service:
     name: docker.service
