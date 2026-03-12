@@ -1,0 +1,30 @@
+- name: start Tailscale
+  listen: "setup Tailscale"
+  shell:
+    cmd: "tailscale up --authkey {{ tailscale_key }}"
+
+- name: Enable incoming connections to SSH port on tailscale interface
+  listen: "setup Tailscale"
+  community.general.ufw:
+    rule: allow
+    port: "{{ ansible_port }}"
+    interface_in: tailscale0
+    proto: tcp
+
+- name: Delete old SSH port from UFW rules
+  listen: "setup Tailscale"
+  community.general.ufw:
+    rule: allow
+    port: "{{ ansible_port }}"
+    proto: tcp
+    delete: true
+
+- name: Enable UFW
+  listen: "setup Tailscale"
+  community.general.ufw:
+    state: enabled
+    logging: on
+    
+  
+
+

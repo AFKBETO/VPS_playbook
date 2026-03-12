@@ -1,0 +1,34 @@
+- name: Install dependencies for Tailscale
+  package:
+    name:
+      - curl
+      - gpg
+    state: present
+
+- name: Create Tailscale GPG key directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download Tailscale's official GPG key
+  get_url:
+    url: https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_distribution_release }}.noarmor.gpg
+    dest: /etc/apt/keyrings/tailscale-archive-keyring.gpg
+    mode: "0644"
+
+- name: Add Tailscale repository to Apt sources
+  apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu {{ ansible_distribution_release }} main"
+    state: present
+    filename: tailscale
+    update_cache: yes
+
+- name: Install Tailscale
+  apt:
+    name: tailscale
+    state: present
+  notify: "setup Tailscale"
+
+- name: Flush handlers
+  meta: flush_handlers
