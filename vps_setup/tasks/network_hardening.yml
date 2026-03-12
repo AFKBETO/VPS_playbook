@@ -1,0 +1,23 @@
+- name: Harden network services
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+  loop:
+  - { key: "net.ipv4.conf.all.rp_filter", value: "1" }
+  - { key: "net.ipv4.conf.default.rp_filter", value: "1" }
+  - { key: "net.ipv4.icmp_echo_ignore_broadcasts", value: "1" }
+  - { key: "net.ipv4.conf.all.log_martians", value: "1" }
+  - { key: "net.ipv4.icmp_ignore_bogus_error_responses", value: "1" }
+  - { key: "net.ipv4.conf.all.accept_source_route", value: "0" }
+  - { key: "net.ipv6.conf.all.accept_source_route", value: "0" }
+  - { key: "net.ipv4.conf.default.accept_source_route", value: "0" }
+  - { key: "net.ipv6.conf.default.accept_source_route", value: "0" }
+  - { key: "net.ipv4.conf.all.accept_redirects", value: "0" }
+  - { key: "net.ipv6.conf.all.accept_redirects", value: "0" }
+  - { key: "net.ipv4.tcp_syncookies", value: "1" }
+  - { key: "net.ipv4.tcp_max_syn_backlog", value: "8" }
+  - { key: "net.ipv4.tcp_synack_retries", value: "2" }
+  - { key: "net.ipv4.tcp_syn_retries", value: "5" }
+  - { key: "net.ipv4.conf.all.send_redirects", value: "0" }

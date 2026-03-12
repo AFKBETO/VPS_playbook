@@ -20,6 +20,9 @@
 - name: Install faiil2ban
   include_tasks: install_fail2ban.yml
 
+- name: Network hardening
+  include_tasks: network_hardening.yml
+
 - name: Install Docker
   include_tasks: install_docker.yml
 
