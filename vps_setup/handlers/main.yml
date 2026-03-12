@@ -2,6 +2,7 @@
 ---
 # handlers file
 
+- import_tasks: sshd_handler.yml
 - import_tasks: docker_handler.yml
 - import_tasks: nvim_handler.yml
 - import_tasks: cloudflared_handler.yml

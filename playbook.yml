@@ -1,5 +1,6 @@
 - name: Setup VPS
-  hosts: vm
+  hosts: orsted-corp
+  gather_facts: false
   become: yes
   roles:
     - vps_setup
