@@ -17,6 +17,9 @@
 - name: Install tailscale
   include_tasks: install_tailscale.yml
 
+- name: Install faiil2ban
+  include_tasks: install_fail2ban.yml
+
 - name: Install Docker
   include_tasks: install_docker.yml
 

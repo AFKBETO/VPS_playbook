@@ -7,3 +7,4 @@
 - import_tasks: docker_handler.yml
 - import_tasks: nvim_handler.yml
 - import_tasks: cloudflared_handler.yml
+- import_tasks: fail2ban_handler.yml
