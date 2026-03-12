@@ -6,7 +6,6 @@
   include_tasks: harden_ssh.yml
 
 - name: Update apt cache and upgrade packages
-  become: yes
   ansible.builtin.apt:
     update_cache: yes
     upgrade: dist
