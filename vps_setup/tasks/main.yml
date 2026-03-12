@@ -11,6 +11,9 @@
     update_cache: yes
     upgrade: dist
 
+- name: Configure firewall with UFW
+  include_tasks: configure_ufw.yml
+
 - name: Install Docker
   include_tasks: install_docker.yml
 
